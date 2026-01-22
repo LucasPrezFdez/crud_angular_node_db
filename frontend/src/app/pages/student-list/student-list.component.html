@@ -1,0 +1,11 @@
+<h2>Listado de estudiantes</h2>
+
+<ul *ngIf="students$ | async as students; else loading">
+  <li *ngFor="let s of students">
+    <strong>{{ s.name }}</strong> — {{ s.email }} — {{ s.age }} años
+  </li>
+</ul>
+
+<ng-template #loading>
+  <p>Cargando estudiantes...</p>
+</ng-template>
