@@ -1,16 +1,16 @@
-import { pool } from "../config/db";
-import { Student } from "../types/student";
+import { pool } from '../config/db';
+import { Student } from '../types/student';
 
 export const getStudents = async (search?: string): Promise<Student[]> => {
-  let sql = "SELECT * FROM students";
+  let sql = 'SELECT * FROM students';
   const params: any[] = [];
 
   if (search) {
-    sql += " WHERE name LIKE ?";
+    sql += ' WHERE name LIKE ?';
     params.push(`%${search}%`);
   }
 
-  sql += " ORDER BY created_at DESC";
+  sql += ' ORDER BY created_at DESC';
 
   const [rows] = await pool.query<Student[]>(sql, params);
   return rows;
@@ -18,8 +18,8 @@ export const getStudents = async (search?: string): Promise<Student[]> => {
 
 export const getStudentById = async (id: number): Promise<Student | null> => {
   const [rows] = await pool.query<Student[]>(
-    "SELECT * FROM students WHERE id = ?",
-    [id],
+    'SELECT * FROM students WHERE id = ?',
+    [id]
   );
   return rows[0] ?? null;
 };
@@ -27,11 +27,11 @@ export const getStudentById = async (id: number): Promise<Student | null> => {
 export const createStudent = async (
   name: string,
   email: string,
-  age: number,
+  age: number
 ): Promise<number> => {
   const [result]: any = await pool.query(
-    "INSERT INTO students (name, email, age) VALUES (?, ?, ?)",
-    [name, email, age],
+    'INSERT INTO students (name, email, age) VALUES (?, ?, ?)',
+    [name, email, age]
   );
   return result.insertId;
 };
@@ -40,18 +40,19 @@ export const updateStudent = async (
   id: number,
   name: string,
   email: string,
-  age: number,
+  age: number
 ): Promise<boolean> => {
   const [result]: any = await pool.query(
-    "UPDATE students SET name = ?, email = ?, age = ? WHERE id = ?",
-    [name, email, age, id],
+    'UPDATE students SET name = ?, email = ?, age = ? WHERE id = ?',
+    [name, email, age, id]
   );
   return result.affectedRows > 0;
 };
 
 export const deleteStudent = async (id: number): Promise<boolean> => {
-  const [result]: any = await pool.query("DELETE FROM students WHERE id = ?", [
-    id,
-  ]);
+  const [result]: any = await pool.query(
+    'DELETE FROM students WHERE id = ?',
+    [id]
+  );
   return result.affectedRows > 0;
 };

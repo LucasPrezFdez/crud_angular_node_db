@@ -10,7 +10,7 @@ export class StudentService {
 
   getAll(search = ''): Observable<Student[]> {
     return this.http.get<Student[]>(this.API, {
-      params: search ? { search } : {},
+      params: search ? { search } : {}
     });
   }
 
